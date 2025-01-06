@@ -1,0 +1,166 @@
+{% extends 'base.html' %} {% block title %} Home {% endblock %} {% block head %} {% load static %}
+<script src="{% static 'js/echarts.min.js' %} "></script>
+{% endblock head %} {% block body %}
+<div class="container-lg mx-auto">
+  <div class="card bg-neutral text-neutral-content w-full">
+    <div class="card-body items-center text-center">
+      <h1 class="card-title text-3xl">Insect-eP450DB</h1>
+      <p>Insect experimental P450-Compounds Database</p>
+      <br />
+      <div class="stats shadow">
+        <div class="stat">
+          <div class="stat-title">Insects</div>
+          <div class="stat-value text-error">75</div>
+        </div>
+
+        <div class="stat">
+          <div class="stat-title">Verified P450s</div>
+          <div class="stat-value text-info">398</div>
+        </div>
+
+        <div class="stat">
+          <div class="stat-title">Compounds</div>
+          <div class="stat-value text-success">133</div>
+        </div>
+
+        <div class="stat">
+          <div class="stat-title">References</div>
+          <div class="stat-value text-warning">297</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <br />
+  <div class="grid grid-cols-6 gap-4">
+    <div class="card card-compact bg-base-100 w-full">
+      <div class="card-body">
+        <h2 class="card-title">Tools</h2>
+        <ul class="menu bg-base-100 rounded-box w-full">
+          <li>
+            <ul>
+              <li><a href="{% url 'insectlist' %}">Insect</a></li>
+              <li><a href="{% url 'compoundlist' %}">Compound</a></li>
+              <li><a href="{% url 'gene_search' %}">Gene</a></li>
+              <li><a href="{% url 'blast' %}">BLAST</a></li>
+              <li><a href="{% url 'tree' %}">Tree</a></li>
+              <li><a href="{% url 'download' %}">Download</a></li>
+              <li><a href="{% url 'help' %}">Help</a></li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="card bg-base-100 w-full col-span-5">
+      <div class="card-body">
+        <p style="line-height: 1.7">
+          <span class="text-xl"><b>Insect-eP450DB</b></span> (Insect experimental P450-Compounds Database) is a comprehensive collection of experimentally validated interactions between insect
+          cytochrome P450 genes and chemical compounds. This resource contains data on 75 insect species, 398 verified P450 genes, and 133 compounds, all supported by 297 relevant scientific
+          publications from WOS. Insect-eP450 DB aims to facilitate research on the functional roles of P450 enzymes in detoxification, insecticide resistance, and xenobiotic metabolism. It provides
+          detailed gene and compound information, enabling researchers to explore gene-compound interactions that are critical for advancing our understanding of insect P450s and their implications in
+          various biological and environmental contexts.
+        </p>
+        <div class="divider"></div>
+        <div class="grid grid-cols-4">
+          <div
+            id="main1"
+            class="w-full h-96 col-span-3"
+          ></div>
+          <div
+            id="main2"
+            class="w-full"
+          ></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  {% endblock %} {% block foot %}
+  <script>
+    var chartDom1 = document.getElementById("main1");
+    var myChart1 = echarts.init(chartDom1);
+    var option1;
+    option1 = {
+      title: {
+        text: "Number of Verified P450s per Order",
+      },
+      tooltip: {},
+      xAxis: {
+        data: ["Blattodea", "Orthoptera", "Hemiptera", "Thysanoptera", "Phthiraptera", "Hymenoptera", "Coleoptera", "Lepidoptera", "Diptera"],
+        axisLabel: {
+          rotate: 30, // 旋转角度，45度
+        },
+      },
+      yAxis: {},
+      series: [
+        {
+          name: "Number of Species",
+          type: "bar",
+          data: [1, 1, 16, 2, 1, 5, 9, 21, 17],
+        },
+      ],
+    };
+
+    option1 && myChart1.setOption(option1);
+
+    var chartDom2 = document.getElementById("main2");
+    var myChart2 = echarts.init(chartDom2);
+    var option2;
+
+    // 配置饼图的选项
+    option2 = {
+      title: {
+        text: "P450 subfamilies",
+      },
+      tooltip: {
+        trigger: "item",
+      },
+      legend: {
+        bottom: "10%",
+        left: "center",
+      },
+      series: [
+        {
+          name: "P450 subfamilies",
+          type: "pie",
+          radius: ["40%", "70%"],
+          avoidLabelOverlap: false,
+          itemStyle: {
+            borderRadius: 10,
+            borderColor: "#fff",
+            borderWidth: 2,
+          },
+          label: {
+            show: false,
+            position: "center",
+          },
+          emphasis: {
+            label: {
+              show: true,
+              fontSize: 40,
+              fontWeight: "bold",
+            },
+          },
+          labelLine: {
+            show: false,
+          },
+          data: [
+            { value: 16, name: "Mito" },
+            { value: 15, name: "CYP2" },
+            { value: 280, name: "CYP3" },
+            { value: 73, name: "CYP4" },
+          ],
+          emphasis: {
+            itemStyle: {
+              shadowBlur: 10,
+              shadowOffsetX: 0,
+              shadowColor: "rgba(0, 0, 0, 0.5)",
+            },
+          },
+        },
+      ],
+    };
+
+    // 使用刚指定的配置项和数据显示图表
+    option2 && myChart2.setOption(option2);
+  </script>
+  {% endblock foot %}
+</div>

@@ -1,0 +1,265 @@
+{% extends 'base.html' %} {% block title %} Help {% endblock %} {% load static %} {% block body %}
+<div class="container-lg mx-auto">
+  <div class="card bg-neutral text-neutral-content w-full">
+    <div class="card-body items-center text-center">
+      <h1 class="card-title text-3xl">Help</h1>
+    </div>
+  </div>
+  <br />
+  <div class="grid grid-cols-5 gap-4">
+    <div>
+      <ul class="menu bg-base-200 rounded-box w-full">
+        <li>
+          <a href="#home"><b>Home</b></a>
+        </li>
+        <li>
+          <a href="#insects"><b>Browse Insect</b></a>
+        </li>
+        <li>
+          <a href="#insect"><b>Insect</b></a>
+        </li>
+        <li>
+          <a href="#gene"><b>Gene</b></a>
+        </li>
+        <li>
+          <a href="#compound"><b>Compound</b></a>
+        </li>
+        <li>
+          <a href="#compounds"><b>Browse Compound</b></a>
+        </li>
+        <li>
+          <a href="#genes"><b>Search Gene</b></a>
+        </li>
+        <li>
+          <a href="#blast"><b>BLAST</b></a>
+        </li>
+        <li>
+          <a href="#tree"><b>Tree</b></a>
+        </li>
+        <li>
+          <a href="#download"><b>Download</b></a>
+        </li>
+      </ul>
+    </div>
+    <div
+      class="w-full shadow-xl px-20 py-10 col-span-4"
+      style="line-height: 2; height: 1000px; overflow-y: auto"
+    >
+      <h1
+        class="text-3xl"
+        id="home"
+      >
+        <b>Home</b>
+      </h1>
+      <br />
+
+      <ul class="rounded-box w-full">
+        <li>1. Navigation Bar, including all the functional modules of the database.</li>
+        <li>2. Sidebar, which provides an interface to the database module.</li>
+        <li>3. Statistical information of the data set.</li>
+        <li>4. Statistical information chart of the data set.</li>
+      </ul>
+      <br />
+
+      <img
+        src="{% static 'image/help/1.png' %}"
+        alt=""
+      />
+
+      <div class="divider"></div>
+      <h1
+        class="text-3xl"
+        id="insects"
+      >
+        <b>Browse Insect</b>
+      </h1>
+      <br />
+
+      <ul class="rounded-box w-full">
+        <li>1. Taxonomic information of 75 insects, users can click on the Latin scientific name of a species to view its information.</li>
+        <li>2. Information of selected insects, use the "learn more" button in the bottom right corner to access the species interface</li>
+      </ul>
+      <br />
+
+      <img
+        src="{% static 'image/help/2.png' %}"
+        alt=""
+      />
+
+      <div class="divider"></div>
+      <h1
+        class="text-3xl"
+        id="insect"
+      >
+        <b>Insect</b>
+      </h1>
+      <br />
+
+      <ul class="rounded-box w-full">
+        <li>1. Basic information of selected insect.</li>
+        <li>2. Information of gene and compounds, users can click on the name of a gene or compound to view its information.</li>
+      </ul>
+      <br />
+
+      <img
+        src="{% static 'image/help/3.png' %}"
+        alt=""
+      />
+
+      <div class="divider"></div>
+      <h1
+        class="text-3xl"
+        id="gene"
+      >
+        <b>Gene</b>
+      </h1>
+      <br />
+
+      <ul class="rounded-box w-full">
+        <li>1. Basic information of selected gene, including oganism, NCBI Accession and 3D structure predicted by Alphafold3.</li>
+        <li>2. Download avaiable data of selected gene.</li>
+        <li>3. Information of related compounds, users can click on the name of a compound to view its information.</li>
+      </ul>
+      <br />
+
+      <img
+        src="{% static 'image/help/4.png' %}"
+        alt=""
+      />
+
+      <div class="divider"></div>
+      <h1
+        class="text-3xl"
+        id="compound"
+      >
+        <b>Compound</b>
+      </h1>
+      <br />
+
+      <ul class="rounded-box w-full">
+        <li>1. Basic information of selected compound.</li>
+        <li>2. Computed descriptors of selected compound.</li>
+        <li>3. Computed properties of selected compound.</li>
+        <li>3. Information of related genes, users can click on the name of a gene to view its information.</li>
+      </ul>
+      <br />
+
+      <img
+        src="{% static 'image/help/5.png' %}"
+        alt=""
+      />
+
+      <div class="divider"></div>
+      <h1
+        class="text-3xl"
+        id="compounds"
+      >
+        <b>Browse Compound</b>
+      </h1>
+      <br />
+
+      <ul class="rounded-box w-full">
+        <li>1. Table of the whole compounds with basic information.</li>
+        <li>2. Search bar for compounds.</li>
+      </ul>
+      <br />
+
+      <img
+        src="{% static 'image/help/6.png' %}"
+        alt=""
+      />
+
+      <div class="divider"></div>
+      <h1
+        class="text-3xl"
+        id="genes"
+      >
+        <b>Search Gene</b>
+      </h1>
+      <br />
+
+      <ul class="rounded-box w-full">
+        <li>1. Search bar for genes with gene name.</li>
+        <li>2. Select the species of the gene.</li>
+      </ul>
+      <br />
+
+      <img
+        src="{% static 'image/help/7.png' %}"
+        alt=""
+      />
+      <br />
+      <ul class="rounded-box w-full">
+        <li>Search results of genes, users can click on the name of a gene to view its information.</li>
+      </ul>
+      <br />
+      <img
+        src="{% static 'image/help/8.png' %}"
+        alt=""
+      />
+
+      <div class="divider"></div>
+      <h1
+        class="text-3xl"
+        id="blast"
+      >
+        <b>BLAST</b>
+      </h1>
+      <br />
+
+      <ul class="rounded-box w-full">
+        <li>1. BLAST parameters with blast type and e-value.</li>
+        <li>2. Enter the FASTA format sequence to be queried.</li>
+        <li>3. Upload the fasta file that needs to be queried.</li>
+      </ul>
+      <br />
+
+      <img
+        src="{% static 'image/help/9.png' %}"
+        alt=""
+      />
+
+      <div class="divider"></div>
+      <h1
+        class="text-3xl"
+        id="tree"
+      >
+        <b>Tree</b>
+      </h1>
+      <br />
+
+      <ul class="rounded-box w-full">
+        <li>1. P450 subfamilies with different colors.</li>
+        <li>2. The clade color is the same as the P450 subfamily.</li>
+      </ul>
+      <br />
+
+      <img
+        src="{% static 'image/help/10.png' %}"
+        alt=""
+      />
+
+      <div class="divider"></div>
+      <h1
+        class="text-3xl"
+        id="download"
+      >
+        <b>Download</b>
+      </h1>
+      <br />
+
+      <ul class="rounded-box w-full">
+        <li>1. Description of selected files.</li>
+        <li>2. Download link of selected files.</li>
+      </ul>
+      <br />
+
+      <img
+        src="{% static 'image/help/11.png' %}"
+        alt=""
+      />
+    </div>
+  </div>
+</div>
+<br />
+{% endblock %}

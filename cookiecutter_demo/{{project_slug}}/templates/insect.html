@@ -1,0 +1,132 @@
+{% extends 'base.html' %} {% block title %} Insect | {{insect.name}} {% endblock %} {% block head %} {% load static %}
+<link
+  href="{% static 'DataTables/datatables.min.css' %}"
+  rel="stylesheet"
+/>
+<script src="{% static 'js/jquery-3.6.0.min.js' %}"></script>
+<script src="{% static 'DataTables/datatables.min.js' %}"></script>
+
+{% endblock %} {% block body %}
+<div class="md:container mx-auto">
+  <div class="card bg-base-100 w-full shadow-xl">
+    <div class="card-body p-10">
+      <div class="breadcrumbs text-sm">
+        <ul>
+          <li>Insecta</li>
+          <li>{{insect.order}}</li>
+          <li>{{insect.family}}</li>
+          <li>{{insect.genus}}</li>
+        </ul>
+      </div>
+      <div class="divider"></div>
+      <h1 class="card-title text-3xl"><i>{{insect.name}}</i></h1>
+      <br />
+      <p>{{insect.description}}</p>
+      <div class="badge badge-outline">From Wikipedia</div>
+      <br />
+      <h1>
+        NCBI Taxonomy ID:
+        <a
+          class="text-info"
+          href="https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id={{insect.taxonomy}}"
+          target="_blank"
+          >{{insect.taxonomy}}</a
+        >
+      </h1>
+      <div class="divider"></div>
+      <h1 class="card-title text-3xl">
+        <span class="text-error">{{gene_compound | length}}</span> pairs of Verified P450 and Compounds
+        <div
+          class="tooltip"
+          data-tip="R: RNAi; C: CRISPR;
+        D: D. melanogaster heterologous expression system;
+        X: In vitro systems (cell lines);
+        E: E. coli;
+        Y: Yeast;"
+        >
+          <button class="btn">Validation</button>
+        </div>
+      </h1>
+      <br />
+      <table
+        id="table"
+        class="table"
+      >
+        <thead>
+          <tr>
+            <th>Gene Symbol</th>
+            <th>Compound</th>
+            <th>Validation</th>
+            <th>Reference</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for x in gene_compound %}
+          <tr>
+            <td>
+              <a
+                href="{% url 'gene' x.gene.id %}"
+                target="_blank"
+                class="text-info"
+                >{{ x.gene.name }}</a
+              >
+            </td>
+            {% if x.compound.name != 'none' %}
+            <td>
+              <div class="grid grid-cols-4 gap-4">
+                <figure>
+                  {% with image_url="image/compound/"|add:x.compound.pubchem_id|add:'.png' %}
+                  <img
+                    src="{% static image_url %}"
+                    alt="Compound Image"
+                  />
+                  {% endwith %}
+                </figure>
+                <div class="col-span-3">
+                  <a
+                    href="{% url 'compound' x.compound.id %}"
+                    class="text-info"
+                    target="_blank"
+                    >{{ x.compound.name }}</a
+                  >
+                </div>
+              </div>
+            </td>
+            {% else %}
+            <td>{{ x.note }}</td>
+            {% endif %}
+            <td>{{x.validation_method}}</td>
+            <td>
+              <ul class="menu w-full p-0 [&_li>*]:rounded-none">
+                <li><a>{{x.references.title}}</a></li>
+                <li>
+                  <a><span class="text-error">{{x.references.journal}}</span></a>
+                </li>
+                <li><a>{{x.references.year}} | {% if x.references.doi != 'none' %}{{x.references.doi}} {% endif %} | {{x.references.wos}} {% if x.references.pubmed_id != 'none' %}</a></li>
+                <li>
+                  <a
+                    href="https://pubmed.ncbi.nlm.nih.gov/{{x.references.pubmed_id}}"
+                    target="_blank"
+                    class="text-info"
+                    >PubMed Link</a
+                  >
+                </li>
+                {% endif %}
+              </ul>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+{% endblock %} {% block foot %}
+<script>
+  $("#table").DataTable({
+    scrollX: true,
+    columns: [{ width: "100px" }, { width: "250px" }, { width: "100px" }, { width: "700px" }],
+  });
+</script>
+{% endblock foot %}

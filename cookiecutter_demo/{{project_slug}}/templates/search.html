@@ -1,0 +1,174 @@
+{% extends 'base.html' %} {% block title %} Gene Search {% endblock %} {% block head %} {% load static %}
+<script>
+  window.onload = function () {
+    document.getElementById("search-input").value = "";
+    if (window.location.search.indexOf("q=") !== -1) {
+      // 如果 URL 包含 q 参数，移除它
+      var url = window.location.href.split("?")[0]; // 获取不带参数的URL
+      window.history.replaceState({}, document.title, url); // 更新浏览器URL，移除参数
+    }
+  };
+</script>
+<link
+  href="{% static 'DataTables/datatables.min.css' %}"
+  rel="stylesheet"
+/>
+<script src="static/js/jquery-3.6.0.min.js"></script>
+<script src="{% static 'DataTables/datatables.min.js' %}"></script>
+{% endblock %} {% block body %}
+<div class="container-lg mx-auto">
+  <div class="card bg-neutral text-neutral-content w-full">
+    <div class="card-body items-center text-center">
+      <h1 class="card-title text-3xl">Search for Genes</h1>
+      <p><span class="text-info">398</span> P450 genes</p>
+    </div>
+  </div>
+  <br />
+  <form
+    method="GET"
+    action=""
+  >
+    <div class="card bg-base-100 w-full shadow-xl p-10">
+      <div class="card-body">
+        <label class="form-control w-100">
+          <div class="join w-100">
+            <div class="join-item w-full">
+              <input
+                id="search-input"
+                type="text"
+                name="q"
+                placeholder="Search for genes... Eg. CYP6"
+                class="input input-bordered w-full join-item"
+                value="{{ query }}"
+              />
+            </div>
+            <select
+              class="select select-bordered join-item"
+              name="s_order"
+              id="s_order"
+            >
+              <option value="all">All orders</option>
+              <option value="Blattodea">Blattodea</option>
+              <option value="Coleoptera">Coleoptera</option>
+              <option value="Diptera">Diptera</option>
+              <option value="Hemiptera">Hemiptera</option>
+              <option value="Hymenoptera">Hymenoptera</option>
+              <option value="Lepidoptera">Lepidoptera</option>
+              <option value="Orthoptera">Orthoptera</option>
+              <option value="Phthiraptera">Phthiraptera</option>
+              <option value="Thysanoptera">Thysanoptera</option>
+            </select>
+            <button
+              type="submit"
+              class="btn join-item rounded-r-full"
+            >
+              Search
+            </button>
+          </div>
+        </label>
+        <!-- 搜索结果展示 -->
+        {% if results and flag %}
+        <br />
+        <div class="divider"></div>
+        <div class="card-title">
+          Search Results (<span class="text-error">{{ results|length }}</span> Genes found )
+          <div
+            class="tooltip"
+            data-tip="R: RNAi; C: CRISPR;
+          D: D. melanogaster heterologous expression system;
+          X: In vitro systems (cell lines);
+          E: E. coli;
+          Y: Yeast;"
+          >
+            <button class="btn">Validation</button>
+          </div>
+        </div>
+        <br />
+        <table
+          class="table"
+          id="table"
+        >
+          <!-- head -->
+          <thead>
+            <tr>
+              <th>Oganism</th>
+              <th>Gene Name</th>
+              <th>Compoud (Compound | Validation method | References)</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for gene in results %}
+            <tr class="hover">
+              <td>
+                <a
+                  href="{% url 'insect' gene.key_species.id %}"
+                  target="_blank"
+                  class="text-info"
+                  ><i>{{ gene.species }}</i></a
+                >
+              </td>
+              <td>
+                <a
+                  href=" {% url 'gene' gene.id %}  "
+                  target="_blank"
+                  class="text-info"
+                  >{{ gene.name }}</a
+                >
+              </td>
+              <td>
+                <table class="table">
+                  <tbody>
+                    {% for y in gene.gene_compound %}
+                    <tr>
+                      {% if y.compound.name == 'none' %}
+                      <td style="width: 200px">{{y.note}}</td>
+                      {% else %}
+                      <td style="width: 200px">{{y.compound.name}}</td>
+                      {% endif %}
+                      <td style="width: 100px">{{y.validation_method}}</td>
+                      <td>{{y.references}}</td>
+                    </tr>
+                    {% endfor %}
+                  </tbody>
+                </table>
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+
+        {% elif flag and not results %}
+        <br />
+        <div
+          role="alert"
+          class="alert"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            class="stroke-info h-6 w-6 shrink-0"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+            ></path>
+          </svg>
+          <span>Sorry. No results found.</span>
+        </div>
+        {% endif %}
+      </div>
+    </div>
+  </form>
+</div>
+<br />
+{% endblock %} {% block foot %}
+<script>
+  $("#table").DataTable({
+    scrollX: true,
+    columns: [{ width: "200px" }, { width: "100px" }, { width: "800px" }],
+  });
+</script>
+{% endblock %}
