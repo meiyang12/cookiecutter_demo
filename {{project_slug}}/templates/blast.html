@@ -1,0 +1,107 @@
+{% extends 'base.html' %} {% block title %} BLAST {% endblock %} {% block head %}
+<script src="static/js/jquery-3.6.0.min.js"></script>
+{% endblock %} {% block body %}
+<div class="container-lg mx-auto">
+  <div class="card bg-neutral text-neutral-content w-full">
+    <div class="card-body items-center text-center">
+      <h1 class="card-title text-3xl">BLAST</h1>
+    </div>
+  </div>
+  <br />
+  <form
+    action="{% url 'blastResult' %}"
+    method="POST"
+  >
+    {% csrf_token %}
+    <div class="grid grid-cols-4 gap-4">
+      <div class="card card-compact bg-base-100 w-full">
+        <div class="card-body">
+          <h2 class="card-title">Advanced</h2>
+          <ul class="menu bg-base-100 rounded-box w-full">
+            <li>
+              <p>BLAST</p>
+              <ul>
+                <li>
+                  <select
+                    class="select select-bordered w-full max-w-xs"
+                    name="type"
+                    id="type"
+                  >
+                    <option value="blastn">blastn</option>
+                    <option value="blastp">blastp</option>
+                    <option value="tblastn">tblastn</option>
+                    <option value="blastx">blastx</option>
+                  </select>
+                </li>
+              </ul>
+            </li>
+            <li>
+              <p>E-value</p>
+              <ul>
+                <li>
+                  <select
+                    class="select select-bordered w-full max-w-xs"
+                    name="evalue"
+                    id="evalue"
+                  >
+                    <option value="1e-3">1e-3</option>
+                    <option value="1e-5">1e-5</option>
+                    <option value="1e-10">1e-10</option>
+                  </select>
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="card card-compact bg-base-100 w-full col-span-3">
+        <div class="card-body">
+          <div class="card-title">BLAST</div>
+
+          <label class="form-control">
+            <textarea
+              maxlength="50000"
+              class="textarea textarea-bordered w-full h-64"
+              id="q"
+              name="q"
+              value="{{ query }}"
+              placeholder="FASTA Sequence with header... (length <=50000)"
+              required
+            ></textarea>
+            <br />
+            <div class="join">
+              <button
+                type="submit"
+                class="btn btn-outline btn-info join-item"
+              >
+                Submit
+              </button>
+              <button
+                type="reset"
+                class="btn btn-outline btn-error join-item"
+              >
+                Reset
+              </button>
+              <button
+                type="button"
+                class="btn btn-outline btn-success join-item"
+                onclick="fillTextarea()"
+              >
+                Example
+              </button>
+            </div>
+          </label>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+{% endblock %} {% block foot %}
+<script>
+  function fillTextarea() {
+    const textarea = document.getElementById("q");
+    textarea.value =
+      "MIVVALVLVGVVALYLYGTRNHNYWKERGVKHDKPIPIFGTDAKRYLLQSSIAQRAADTYWKYPGERFVGYYRGSIPELVIRDPDLVKRIITTDFSYFYSRGLSPAHKVIEPLLRNLFFADGDLWRLLRQRMTPAFTSGKLKAMFPLIVERAEKLQARLLDAAAAGRPIDARELMARYTTDFIGACGFGLDADSLNDDSSPFRKLGMKIFKIDLKRCIVIFCKTIFPDLFKTLKFLGQELEDDILTLVNQIQKQRNYKPSGRNDFIDFLMEWQQRGKILVESLEEMNPDGTPKSVELEMDDVLVAAQAFIFFAAGFETSSSATSFTLHQLAYHPEVQKKAQADIDRVLAKHNNRLSYDAVKEMTYLDWVLQEGMRIFPSSGMLLRQCVRPYTIPGTDITIDKGVKINIPLVALHNDPQYFDNPKEFRPERFEPEEVAKRHKFVYLPFGDGPRSCIGGRLGQMQSLAGLAAVLAKFSVSPAPETKRELESDPTSSIVQNIVGGIPLMFHARHAPPA";
+  }
+</script>
+{% endblock foot %}
